@@ -1,0 +1,10 @@
+insobank (rest of writeups not available) 
+
+The web application in this challenge is a banking app that supports transferring deposits from one account to another. However, all the accounts involved in a transfer operation must belong to the same person; this means we cannot transfer money from our account to other people’s accounts.
+Through the registration functionality, we can create new accounts. Every new account starts with a $10 initial deposit in the current account, and has empty saving account and checking account.
+
+
+from the source code, we can see that there is postgre sql used in backend.
+
+I didn't understand the writeup that well bt here's what I understood - 
+in the .sql files, for mysql, the amount has datatype of decimal(10,2) and postgre sql has just decimal datatype for amount. this means that if you transfer something like 0.014, in mysql, it'll be stored as 0.1 but in postgre sql it'll be stored as 0.01 hence, 0.01 gets deducted from the account while making the transaction and 0.014 gets added to account

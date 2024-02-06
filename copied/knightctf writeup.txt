@@ -1,0 +1,121 @@
+Levi Ackerman ------------------------------------------------------------------------------------------------------------------
+
+check the robots.txt file of the challenge and check the disllowed url mentioned in it to get the flag.
+
+------------------------------------------------------------------------------------------------------------------
+
+Kitty ------------------------------------------------------------------------------------------------------------------
+
+on opening the challenge, we see a login page. We cannot do anything else other than login, so we can try sql injection.
+
+we can break the query using double quote.
+
+assuming that the query looks something like - 
+SELECT * FROM table WHERE username=get[username] and password=get[password]
+and if the number of rows returned is 1 or more, then you get to log in.
+
+hence, we just need to inject 'or 1=1' to log in.
+
+so we can type 
+" or 1=1 -- -
+in username field or password field.
+
+then we view the source code and see that if we type 'cat flag.txt' as a post, it will give the flag.
+
+------------------------------------------------------------------------------------------------------------------
+
+README ------------------------------------------------------------------------------------------------------------------
+
+the website gives us an option to fetch any file and read its contents. However, if we try doing it for any file other than text.txt, it gives 403 error.
+
+on referring https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/403-and-401-bypasses#http-headers-fuzzing
+we get an idea on how to bypass this error.
+
+there are multiple ways we can try, what was used is changing value of headers to 
+X-Originating-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded: 127.0.0.1
+Forwarded-For: 127.0.0.1
+X-Remote-IP: 127.0.0.1
+X-Remote-Addr: 127.0.0.1
+X-ProxyUser-Ip: 127.0.0.1
+X-Original-URL: 127.0.0.1
+Client-IP: 127.0.0.1
+True-Client-IP: 127.0.0.1
+Cluster-Client-IP: 127.0.0.1
+X-ProxyUser-Ip: 127.0.0.1
+Host: localhost
+
+and you get the flag by fetching flag.txt file.
+
+------------------------------------------------------------------------------------------------------------------
+
+Fluxx ------------------------------------------------------------------------------------------------------------------
+
+description is given as - 
+Recently I have made a simple app for monitoring and analyzing metrics, events, and real-time data.I used a database which is designed for handling high volumes of timestamped data. But I think its vulnerable find it and get he flag.
+
+influx db is used in backend.
+
+it is written - 
+please visit /query?data= to travel with time.
+
+to understand how to exploit influx db, read https://rafa.hashnode.dev/influxdb-nosql-injection
+then use the same payload used in it, after url encoding it
+
+%22)%20%7C%3E%20yield(name:%20%221337%22)%20%0D%0Abuckets()%20%7C%3E%20filter(fn:%20(r)%20=%3E%20r.name%20=~%20/%5E.*/%20and%20die(msg:r.name))%20%0D%0A//
+
+to get the flag.
+
+------------------------------------------------------------------------------------------------------------------
+
+Gain Access 1 ------------------------------------------------------------------------------------------------------------------
+
+description 
+The web challenges are very much similar to real life application bugs. This is going to be a series of Gain Access with 3 challenges unlocks upon solving one by one. By solving these challenges, you’ll gain a practical knowledge of Authentication Bypass Vulnerabilites as well as business logic error. The only difference is you’ll not get any bounty but you’ll get flags. Give it a try. And keep in mind, Don’t make it hard, keep it simple. All the best. Solve the challenges & be a cyber knight.
+
+in the page source of the website, we find a email we need to log in to. we don't know the password for it hence, we need to do sqli to log in. we can assume the query looks like
+
+SELECT * FROM table WHERE username=get[username] and password=get[password]
+hence we just need to comment the part where it takes in password, therefore, we type 
+-- -
+at end of email to login and get flag.
+
+------------------------------------------------------------------------------------------------------------------
+
+Gain Access 2 ------------------------------------------------------------------------------------------------------------------
+
+description
+You’ve everyting to reach your destination. A knight has lead the path. Follow the path & get the flag. keep in mind, all challenges are based on real life application bugs.
+
+on viewing page source, we see
+
+notesssssss.txt
+
+in comments and on viewing it, we see 
+
+I 've something for you. Think
+root@knightctf.com : d05fcd9Øca236d294384abdøøca98a2d
+
+using the website - 
+https://md5hashing.net/hash/md5/
+
+we can get the password to the email
+
+then we get OTP verification to be done, here we inject sql like
+' or 1=1 -- -
+and we can log in.
+we need to intercept the request as the flag comes in the request.
+
+------------------------------------------------------------------------------------------------------------------
+
+Gain access 3 ------------------------------------------------------------------------------------------------------------------
+
+description
+So you’ve come this far huh!! Let me see if you can get this done. It’s similar but with a twist. This time the email is sent to the admin only. Just think. keep in mind, all challenges are based on real life application bugs.
+
+it is the same as that of Gain access 2, we get flag the same way.
+
+
+
+`L

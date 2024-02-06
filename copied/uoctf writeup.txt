@@ -1,0 +1,36 @@
+Voice Changer `L
+at first, it looks like we can inject php code for pitch and in the file, since they both get loaded in the output. however, that doesn't work.
+
+so shell code is directly written in the pitch field like $(ls)
+this returns a bunch of files, which means the code is getting executed. 
+hence the flag is found to be in the directory /secret.txt
+on doing $(cat /secret.txt)
+we get the flag
+
+`L
+
+The Varsity `L
+
+(writeup is unclear)
+
+this challenge basically would normally trick the player into trying to change the JWT token to the correct value, however, this is a vulnerability from parseInt() function.
+where if you do parseInt("10 20"), it returns 10. hence you can hide integers.
+`L
+
+No code `L
+
+from the source code, we can see that certain characters fail the regex check and give a message, you can view all the characters that get filtered using the website -
+https://regexr.com/
+everything except newline character tends to fail the regex check.
+However, everything after a newline character tends to pass the regex check.
+hence, we can get the flag by the ssti payload, after a newline character - 
+__builtins__.__import__('os').popen('ls -al').read()
+
+then
+
+__builtins__.__import__('os').popen('cat flag.txt').read()
+
+after a newline character to get the flag
+
+
+`L
