@@ -1,11 +1,14 @@
 description - <br>
   Follow the leader.
 <br>
+
 ##what the challenge is about
+
 this is a simple game, where you have a player and a goose, on a 11x20 grid and there is a wall placed. your player can move up, down, left or right and the goose also moves up, down, left or right by 1 cell in the grid, randomly.
 the main goal of the challenge is to win the game in least number of moves.
 
 #how to solve
+
 first I viewed the linked scripts 
 <code>
 <script src="/mojojs/mojo_bindings.js"></script> 
