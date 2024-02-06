@@ -16,9 +16,11 @@ let entrypoint = 1170
 
 maybe it is part of the framework, I'm not sure. Anyways, the main part of the challenge is quite simple. On checking the page source, I found the code
 <code>let won = false;</code>
-<code>function win(history) {
-    const code = encode(history) + ";" + prompt("Name?");
+<code>
 
+    function win(history) {
+    const code = encode(history) + ";" + prompt("Name?");
+    
     const saveURL = location.origin + "?code=" + code;
     displaywrapper.classList.remove("hidden");
 
@@ -34,15 +36,17 @@ maybe it is part of the framework, I'm not sure. Anyways, the main part of the c
       encodeURIComponent(saveURL);
 
     if (score === 9) log("flag: dice{pr0_duck_gam3r_" + encode(history) + "}");
-  }
-
-  const replayCode = new URL(location.href).searchParams.get("code");
-
-  if (replayCode !== null) replay();
-
-  let validated = false;
-  async function replay() {
-    if (!(await validate())) {
-      log("Failed to validate");
-      return;
-    }</code>
+    }
+  
+    const replayCode = new URL(location.href).searchParams.get("code");
+  
+    if (replayCode !== null) replay();
+  
+    let validated = false;
+    async function replay() {
+      if (!(await validate())) {
+        log("Failed to validate");
+        return;
+    }
+    
+</code>
