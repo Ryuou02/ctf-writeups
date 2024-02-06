@@ -1,6 +1,11 @@
 description - <br>
   Follow the leader.
 <br>
+##what the challenge is about
+this is a simple game, where you have a player and a goose, on a 11x20 grid and there is a wall placed. your player can move up, down, left or right and the goose also moves up, down, left or right by 1 cell in the grid, randomly.
+the main goal of the challenge is to win the game in least number of moves.
+
+#how to solve
 first I viewed the linked scripts 
 <script src="/mojojs/mojo_bindings.js"></script> 
 and 
@@ -16,6 +21,7 @@ let entrypoint = 1170
 
 maybe it is part of the framework, I'm not sure. Anyways, the main part of the challenge is quite simple. On checking the page source, I found the code
 <code>let won = false;</code>
+and the function - 
 <code>
 
     function win(history) {
@@ -50,3 +56,67 @@ maybe it is part of the framework, I'm not sure. Anyways, the main part of the c
     }
     
 </code>
+
+
+I called the above function using the console debugger (which is part of the developer tools). It allows you to win, and returns a flag with the history of your player and the movement of the goose encoded in it. I tried teleporting the player right in front of the goose and many things that'll give me victory in 9 moves, but I missed a key point in the code that is - 
+<code>
+
+    document.onkeypress = (e) => {
+    if (won) return;
+
+    let nxt = [player[0], player[1]];
+
+    switch (e.key) {
+      case "w":
+        nxt[0]--;
+        break;
+      case "a":
+        nxt[1]--;
+        break;
+      case "s":
+        nxt[0]++;
+        break;
+      case "d":
+        nxt[1]++;
+        break;
+    }
+
+    if (!isValid(nxt)) return;
+
+    player = nxt;
+
+    if (player[0] === goose[0] && player[1] === goose[1]) {
+      win(history);
+      won = true;
+      return;
+    }
+
+    do {
+      nxt = [goose[0], goose[1]];
+      switch (Math.floor(4 * Math.random())) {
+        case 0:
+          nxt[0]--;
+          break;
+        case 1:
+          nxt[1]--;
+          break;
+        case 2:
+          nxt[0]++;
+          break;
+        case 3:
+          nxt[1]++;
+          break;
+      }
+    } while (!isValid(nxt));
+
+    goose = nxt;
+
+    history.push([player, goose]);
+
+    redraw();
+    };
+  
+</code>
+
+here, you can see towards the end, there is <code>history.push([player, goose]);</code> this means that the history that gets encoded depends on the position of both the player and goose, not just 1 of them. I had overlooked this and assumed that it was just the history of the player's movements. So what I did was, I called the function <code>walls.push(x,y)</code> to create a wall such that the goose only has 1 direction in which it could move. Hence creating a situation which would be really rare(the goose moving in a straight line for 9 blocks) to occur.The goose needs to be made to move in a straight line for 9 blocks till it reaches our player, which we move down.
+in order to get this to happen, you place horizontal walls above the goose and below the goose so that it can only move forward or backward, and then place a wall right behind the goose so that it doesn't move backward. and every step you move the player down, the goose will move forward, that time you need to place a wall right behind the goose and keep doing this for 9 moves till the player and goose meet.
