@@ -7,9 +7,13 @@ the main goal of the challenge is to win the game in least number of moves.
 
 #how to solve
 first I viewed the linked scripts 
+<code>
 <script src="/mojojs/mojo_bindings.js"></script> 
+</code>
 and 
+<code>
 <script src="/prog.js"></script>
+</code>
 
 the first one just turned out to be file that is part of the framework used to make the application.
 the second file, I have no idea what it was, I spent some time looking at it, it looked like shellcode.
