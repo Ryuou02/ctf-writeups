@@ -5,15 +5,15 @@ on viewing the page source we see
 we just need to focus on the addeventlistener part, where it changes the position of the button based on the position of the mouse. Now all we need to do to solve the challenge is open the console and change the variable values
 ![image](https://github.com/Ryuou02/ctf-writeups/assets/133224167/5db4cfe5-b750-4401-9822-bf3a2f33f701)
 however, they seem to not allow console? It is because of this in the page source - 
-<code>
-setInterval(function() {
-                if (window.innerHeight !== height || window.innerWidth !== width) {
-                    document.body.innerHTML = "<div><h1>NO CONSOLE ALLOWED</h1></div>";
-                    height = window.innerHeight;
-                    width = window.innerWidth;
-                }
-            }, 10);
-</code>
+```
+    setInterval(function() {
+            if (window.innerHeight !== height || window.innerWidth !== width) {
+                document.body.innerHTML = "<div><h1>NO CONSOLE ALLOWED</h1></div>";
+                height = window.innerHeight;
+                width = window.innerWidth;
+            }
+        }, 10);
+```
 And the height and width variables are set when the page loads.
 we just need to reload the page while keeping the console debugger open to avoid this.
 then we change mx to 0
