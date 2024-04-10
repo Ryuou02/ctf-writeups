@@ -103,4 +103,8 @@ public function validate() {
 	}
 }
 ```
-username is not vulnerable to sqli since it is checked twice to make sure the username entered is valid. Hence 
+username is not vulnerable to sqli since it is checked twice to make sure the username entered is valid. Hence now we know where to do the sqli while exploiting the deserialisation vulerability.
+
+# solve
+
+
