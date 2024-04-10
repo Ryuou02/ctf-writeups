@@ -35,8 +35,8 @@ here a new object of User class is initialised, serialised, base64 encoded and s
 this holds the value of the base64 encoded serialized object.
 
 Here we can see a clear <a href="https://medium.com/swlh/exploiting-php-deserialization-56d71f03282a">php deserialisation</a> vulnerability. Now we need to find a method to make use of this vulnerability.
-```home.php``` has nothing interesting in it.
-However, if we see ```profile.php```
+`home.php` has nothing interesting in it.
+However, if we see `profile.php`
 we see 
 ```
 $cookie = unserialize(base64_decode($_COOKIE['auth']));
@@ -106,5 +106,5 @@ public function validate() {
 username is not vulnerable to sqli since it is checked twice to make sure the username entered is valid. Hence now we know where to do the sqli while exploiting the deserialisation vulerability.
 
 # solve
-
+I made another class, similar to the  <U>SOMETHING</U>
 
