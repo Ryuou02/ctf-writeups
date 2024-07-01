@@ -58,6 +58,6 @@ and get the jwt
 
 # obtaining the flag - 
 ![image](https://github.com/Ryuou02/ctf-writeups/assets/133224167/8b1fc819-f5bb-4dcc-8959-359de801ce1f)
-
+`uiuctf{sigpwny_does_not_condone_turnstile_hopping!}`
 # conclusion
 I used raw md5 for sqli for first time in this challenge. And this is the first time I see that the secret is used for identifying the content of the jwt.
