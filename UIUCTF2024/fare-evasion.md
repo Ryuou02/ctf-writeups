@@ -44,7 +44,7 @@ In the *page source* we see
 ```
 They have mentioned how they are retrieving the passenger key from the database in comments. It probably means they want us to know that an sqli is possible here. We see that they are using raw md5 while storing and retrieving data. The problem with this is that, any kind of characters can be in the raw md5, so all we need to do is find a string such that when it is hashed in md5, it will look something like - ` ' or '1` so that we can do sqli attack and get all records in the database.
 
-I found the string "ffifdyop" which matches our need, from the below url - 
+I found the string "ffifdyop" which matches our need, from the url - 
 https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/README.md#authentication-bypass-raw-md5-sha1
 
 So we need to put that in the `kid` parameter in the head of the jwt token and sign the jwt with the secret they have given us - `a_boring_passenger_signing_key_?` to get the jwt `eyJhbGciOiJIUzI1NiIsImtpZCI6ImZmaWZkeW9wIiwidHlwIjoiSldUIn0.eyJ0eXBlIjoicGFzc2VuZ2VyIn0.zgePz4fg9QKihcFTuT8SEYy0vIwNnIuNSmb7vZuNVrE` 
