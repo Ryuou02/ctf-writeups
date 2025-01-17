@@ -36,3 +36,17 @@ app.get('/view/:fileName', (req, res) => {
 
 The idea for the solution is to use regex to identify the flag. Suppose our guess for the characters within the flag is correct, then there should be an extra delay in the response to indicate that the flag is correct.
 
+https://regex101.com/ was used to assist in making of the regex.
+The regex was made such that, in case the guess is correct, then there is no delay and otherwise there is a delay.
+
+payload - 
+` ^guess|^(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$ `
+![image](https://github.com/user-attachments/assets/3ee6bddb-23c8-4057-bc89-d74c33bc3af8)
+![image](https://github.com/user-attachments/assets/a36c929a-115a-45c1-bc06-2c520dba1668)
+As observed, it shows *catastrophic backtracking* when the guess is incorrect and it loads quickly otherwise.
+
+Hence, a python script is written based on this, such that we guess the next character using the delays. The python script assists to change the characters and check the delay.
+
+
+
+
