@@ -7,7 +7,7 @@ On viewing the code_samples folder within the source code, we can see that there
 
 
 On viewing the source code, we can see that the visibility of flag.txt file is set to false.
-```
+```JS
 function initializeFiles() {
   const files = fs.readdirSync(CODE_SAMPLES_DIR);
   files.forEach(file => {
